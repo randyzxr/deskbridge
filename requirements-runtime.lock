@@ -1,0 +1,6 @@
+# Versions used to verify this delivery; refresh with source/vulnerability review.
+cryptography==50.0.2
+cffi==2.1.1
+pycparser==3.0
+zeroconf==0.151.5
+ifaddr==0.2.0

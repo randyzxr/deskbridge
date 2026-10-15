@@ -1,0 +1,13 @@
+--- a/src/lib/deskflow/ipc/IpcServer.cpp
++++ b/src/lib/deskflow/ipc/IpcServer.cpp
+@@ -30,8 +30,8 @@
+ 
+ void IpcServer::listen()
+ {
+-  // IPC server normally runs as system, but GUI runs as regular user, so we need to allow world access.
+-  m_server->setSocketOptions(QLocalServer::WorldAccessOption);
++  // DeskBridge service uses authenticated SCM control; native IPC is private to the process user.
++  m_server->setSocketOptions(QLocalServer::UserAccessOption);
+ 
+   connect(m_server, &QLocalServer::newConnection, this, &IpcServer::handleNewConnection);
+   QLocalServer::removeServer(m_serverName);
