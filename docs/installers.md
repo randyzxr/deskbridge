@@ -50,10 +50,10 @@ python tools/checksums.py
 
 ## GitHub
 
-当前 GitHub CLI 的 `workflow` 权限等待用户补充授权。普通源码与 Windows 安装包可先上传；仓库中的 `packaging/installers.yml.example` 是不会执行的构建模板。授权后把它作为 `.github/workflows/installers.yml` 上传，才可从 Actions 启动。源码 ZIP 也包含该工作流文件。
+GitHub `workflow` 授权已完成，`.github/workflows/installers.yml` 已启用。`platform` 可选 all、macos 或 ubuntu，以便只重建需要的目标。仓库保留 `packaging/installers.yml.example` 作为模板；实际构建结果以对应运行日志和 Release 附件为准。
 
 工作流 `.github/workflows/installers.yml` 仅允许手动运行，使用 Windows、Mac ARM / Intel、Ubuntu 对应 runner。默认内容只读、checkout 不保存凭据；仅发布草稿的 job 有仓库内容写权限。所有 Action 固定提交，输入核心固定摘要。不开启 PR 中有秘密权限的构建。
 
-上传源码后，在 Actions → Build native installers → Run workflow 运行。成功后每个平台的安装包及 SHA-256 清单出现在该次运行的 Artifacts。勾选 `draft_release` 会在全部构建成功后创建 v0.3.1 草稿 Release；对外发布前继续完成实际键鼠、权限和各端安装验收。Mac 签名/公证、实验锁屏服务安全评审仍为后续工作。
+在 Actions → Build native installers → Run workflow 运行。成功后所选平台的安装包及 SHA-256 清单出现在该次运行的 Artifacts。勾选 `draft_release` 会在所选目标成功后创建或补齐 v0.3.1 草稿 Release，不修改已正式发布版本的附件。Intel Mac 从固定摘要的官方 cryptography 50.0.2 源码构建，Cargo 使用上游锁文件，OpenSSL 静态链接；构建工具 maturin 固定 1.14.1。DMG 完成后额外校验镜像，挂载后复制到独立目录，再验证应用签名、身份持久化及随包核心加载。对外发布前仍需实际键鼠与系统权限验收。Mac Developer ID 签名/公证、实验锁屏服务安全评审仍为后续工作。
 
 不得提交 `.venv`、`build`、`dist`、用户配置、PEM、身份快照或访问令牌。安装包作为 Release 附件上传，不放进 Git 提交。公开仓库前需人工安全评审现有上游 IPC / 原生输入边界以及第三方发布许可材料。

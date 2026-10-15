@@ -20,6 +20,11 @@ def default_profile() -> Path:
 
 
 def main() -> None:
+    # Redirected output on an English Windows host can otherwise use cp1252,
+    # making Chinese diagnostic messages fail before the native core is checked.
+    for stream in (sys.stdout, sys.stderr):
+        if stream is not None and hasattr(stream, "reconfigure") and not stream.closed:
+            stream.reconfigure(encoding="utf-8", errors="backslashreplace")
     parser = argparse.ArgumentParser(description="DeskBridge：局域网跨平台键鼠共享")
     parser.add_argument("--profile", type=Path, default=default_profile(), help="独立配置目录；每台电脑必须自行生成身份")
     parser.add_argument("--engine", help="官方 Deskflow 1.27.0 核心路径")

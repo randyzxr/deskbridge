@@ -3,6 +3,11 @@ name: Build native installers
 on:
   workflow_dispatch:
     inputs:
+      platform:
+        description: Platforms to build
+        type: choice
+        options: [all, macos, ubuntu]
+        default: all
       draft_release:
         description: Create a draft release after every platform succeeds
         type: boolean
@@ -17,6 +22,7 @@ concurrency:
 
 jobs:
   windows:
+    if: inputs.platform == 'all'
     runs-on: windows-2022
     timeout-minutes: 30
     steps:
@@ -51,6 +57,7 @@ jobs:
             dist/SHA256SUMS-0.3.1-windows-x64.txt
 
   macos:
+    if: inputs.platform != 'ubuntu'
     strategy:
       fail-fast: false
       matrix:
@@ -72,15 +79,16 @@ jobs:
           python-version: '3.12'
       - run: python -c 'import tkinter; print(tkinter.TkVersion)'
       - run: mkdir -p build/tmp
-      - name: Build pinned cryptography for Intel macOS
+      - name: Build pinned source dependencies for Intel macOS
         if: matrix.arch == 'x86_64'
         env:
           OPENSSL_STATIC: '1'
         run: |
-          python -m pip install --only-binary=:all: maturin==1.14.1 setuptools==84.0.0 cffi==2.1.1 pycparser==3.0
+          python -m pip install --only-binary=:all: -r requirements-macos-intel-build.lock
           export OPENSSL_DIR="$(brew --prefix openssl@3)"
           rustc --version
           python -m pip install --no-build-isolation --no-deps 'https://files.pythonhosted.org/packages/9d/af/182eb91b0df3fe75c4d9f26fe70684569566745f6ba7e5c9c73a862c5252/cryptography-50.0.2.tar.gz#sha256=7b46165bb56eb4704e2eaaf86f3c940d19154535d9b0ca7d6d590b04060e00d5'
+          python -m pip install --no-build-isolation --no-deps 'https://files.pythonhosted.org/packages/93/20/69744d9de9d375dae2639dda9add7dae85d52d690b68c61b23b8a6468434/zeroconf-0.151.5.tar.gz#sha256=28c2ec9d772007eedf11b41a9c9fd3d5c684c17b00721ff8f1ee31b20ad286a1'
       - run: |
           python -m pip install --only-binary=:all: -r requirements-build.lock
       - run: python tools/fetch_native.py
@@ -88,6 +96,7 @@ jobs:
       - run: python tools/build.py
       - run: python tools/installers.py --native vendor/cache/deskflow-1.27.0-macos-${{ matrix.arch }}.dmg
       - run: python tools/frozen_checks.py dist/0.3.1/DeskBridge.app/Contents/MacOS/DeskBridge
+      - run: python tools/macos_smoke.py
       - run: python tools/checksums.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -99,6 +108,7 @@ jobs:
             dist/SHA256SUMS-0.3.1-macos-${{ matrix.arch }}.txt
 
   ubuntu:
+    if: inputs.platform != 'macos'
     runs-on: ubuntu-26.04
     timeout-minutes: 30
     steps:
@@ -129,7 +139,11 @@ jobs:
             dist/SHA256SUMS-0.3.1-ubuntu-26.04-amd64.txt
 
   draft-release:
-    if: inputs.draft_release && github.ref == 'refs/heads/main'
+    if: >-
+      always() && !cancelled() && inputs.draft_release && github.ref == 'refs/heads/main' &&
+      (needs.windows.result == 'success' || needs.windows.result == 'skipped') &&
+      (needs.macos.result == 'success' || needs.macos.result == 'skipped') &&
+      (needs.ubuntu.result == 'success' || needs.ubuntu.result == 'skipped')
     needs: [windows, macos, ubuntu]
     runs-on: ubuntu-24.04
     timeout-minutes: 10

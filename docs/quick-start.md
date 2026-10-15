@@ -20,9 +20,17 @@ macOS / Ubuntu 当前保留普通 Dock / 任务栏最小化；本次通知区域
 
 ## macOS / Ubuntu
 
-跨平台安装包构建脚本见 `docs/installers.md`，只有构建和验收通过的文件才应对外发布。源码运行仍需 Python 3.12+ 和 Tk。
+Mac：Apple silicon 选择 `macos-arm64.dmg`，Intel 选择 `macos-x86_64.dmg`。打开镜像，将 DeskBridge.app 拖入 Applications，再从应用程序启动。包内已附运行环境和 Deskflow 核心，无需安装 Python。当前为开发签名，未做 Apple 公证；如果系统阻止首次打开，可按系统设置“隐私与安全性”提供的“仍要打开”流程核对后打开，保持 Gatekeeper 开启。[Apple 官方说明](https://support.apple.com/zh-cn/102445)
 
-macOS 需授予实际输入核心“辅助功能”和“输入监控”权限。Ubuntu Wayland 需桌面 portal 授权，Xorg 需 XTest。应用停止或关闭后结束普通共享。
+Ubuntu 26.04 amd64：打开终端，切换到下载目录，执行：
+
+```sh
+sudo apt install ./DeskBridge-0.3.1-ubuntu-26.04-amd64.deb
+```
+
+随后从应用列表启动 DeskBridge。APT 会安装所需系统库，无需安装 Python；该包不能用于 Ubuntu 22.04/24.04。卸载用 `sudo apt remove deskbridge`，用户配对配置保留。
+
+macOS 需授予实际输入核心“辅助功能”和“输入监控”权限；随包核心位于 `/Applications/DeskBridge.app/Contents/Resources/engine/Deskflow.app/Contents/MacOS/deskflow-core`。Ubuntu Wayland 需桌面 portal 授权，Xorg 需 XTest。应用停止或关闭后结束普通共享。系统权限和双机实际键鼠效果需在使用的电脑上确认，构建机器的启动探测不能替代这些授权。
 
 ## 更新与卸载
 
