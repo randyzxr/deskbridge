@@ -2,7 +2,7 @@
 
 独立桌面控制器 + 固定版本 Deskflow 1.27.0 输入核心，实现局域网 Windows / macOS / Ubuntu 键盘鼠标共享。提供 Windows 安装版、Mac ARM / Intel DMG 和 Ubuntu 26.04 amd64 DEB 的原生构建；安装与启动检查见 [验证记录](docs/validation.md)。系统输入权限与双机实际键鼠效果仍需在使用的电脑上验收。
 
-这不是仅展示连接效果的网页：点击启动后会运行真实的原生输入核心。Synergy 商业界面与授权机制未被复制，详细分析见 [报告](docs/synergy-analysis.md)，产品与开发方案见 [设计](docs/design.md)。
+这不是仅展示连接效果的网页：点击启动后会运行真实的原生输入核心。详细分析见 [报告](docs/synergy-analysis.md)，产品与开发方案见 [设计](docs/design.md)。
 
 ## 快速运行
 
