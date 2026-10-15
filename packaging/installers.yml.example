@@ -72,6 +72,15 @@ jobs:
           python-version: '3.12'
       - run: python -c 'import tkinter; print(tkinter.TkVersion)'
       - run: mkdir -p build/tmp
+      - name: Build pinned cryptography for Intel macOS
+        if: matrix.arch == 'x86_64'
+        env:
+          OPENSSL_STATIC: '1'
+        run: |
+          python -m pip install --only-binary=:all: maturin==1.14.1 setuptools==84.0.0 cffi==2.1.1 pycparser==3.0
+          export OPENSSL_DIR="$(brew --prefix openssl@3)"
+          rustc --version
+          python -m pip install --no-build-isolation --no-deps 'https://files.pythonhosted.org/packages/9d/af/182eb91b0df3fe75c4d9f26fe70684569566745f6ba7e5c9c73a862c5252/cryptography-50.0.2.tar.gz#sha256=7b46165bb56eb4704e2eaaf86f3c940d19154535d9b0ca7d6d590b04060e00d5'
       - run: |
           python -m pip install --only-binary=:all: -r requirements-build.lock
       - run: python tools/fetch_native.py

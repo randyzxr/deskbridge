@@ -69,7 +69,11 @@ def macos(native):
         mount = Path(name)
         attached = False
         try:
-            subprocess.run(["hdiutil", "attach", "-readonly", "-nobrowse", "-mountpoint", str(mount), str(native)], check=True)
+            # The official image presents its GPL license before mounting. Keep
+            # the upstream license in the distribution and provide the explicit
+            # affirmative response for this authorized, read-only build mount.
+            subprocess.run(["hdiutil", "attach", "-readonly", "-nobrowse", "-mountpoint", str(mount), str(native)],
+                           input="Y\n", text=True, check=True)
             attached = True
             source = mount / "Deskflow.app"
             if not (source / "Contents/MacOS/deskflow-core").is_file():
