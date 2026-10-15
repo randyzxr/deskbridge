@@ -137,4 +137,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh release create v0.3.1 build/release/* --draft --target "$GITHUB_SHA" --title 'DeskBridge 0.3.1' --notes-file docs/release-notes.md
+          if gh release view v0.3.1 --json isDraft --jq .isDraft > build/draft-state; then
+            if ! grep -qx true build/draft-state; then
+              echo 'Refusing to replace assets of a published release'
+              exit 1
+            fi
+            gh release upload v0.3.1 build/release/* --clobber
+            gh release edit v0.3.1 --notes-file docs/release-notes.md
+          else
+            gh release create v0.3.1 build/release/* --draft --target "$GITHUB_SHA" --title 'DeskBridge 0.3.1' --notes-file docs/release-notes.md
+          fi
