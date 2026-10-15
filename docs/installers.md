@@ -56,4 +56,4 @@ GitHub `workflow` 授权已完成，`.github/workflows/installers.yml` 已启用
 
 在 Actions → Build native installers → Run workflow 运行。成功后所选平台的安装包及 SHA-256 清单出现在该次运行的 Artifacts。勾选 `draft_release` 会在所选目标成功后创建或补齐 v0.3.1 草稿 Release，不修改已正式发布版本的附件。Intel Mac 从固定摘要的官方 cryptography 50.0.2 源码构建，Cargo 使用上游锁文件，OpenSSL 静态链接；构建工具 maturin 固定 1.14.1。DMG 完成后额外校验镜像，挂载后复制到独立目录，再验证应用签名、身份持久化及随包核心加载。对外发布前仍需实际键鼠与系统权限验收。Mac Developer ID 签名/公证、实验锁屏服务安全评审仍为后续工作。
 
-不得提交 `.venv`、`build`、`dist`、用户配置、PEM、身份快照或访问令牌。安装包作为 Release 附件上传，不放进 Git 提交。公开仓库前需人工安全评审现有上游 IPC / 原生输入边界以及第三方发布许可材料。
+不得提交 `.venv`、`build`、`dist`、用户配置、PEM、身份快照或访问令牌。安装包作为 Release 附件上传，不放进 Git 提交。仓库以开源开发预览版共享；现有上游 IPC / 原生输入边界的限制见 `docs/security-review.md`，用于多用户部署或生产环境前需人工安全评审。再分发时须保留第三方许可材料及对应源码。

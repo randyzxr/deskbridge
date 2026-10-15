@@ -49,7 +49,7 @@ Mac 单设备默认共享端选择只使用已配对记录，不从网络自动�
 ## 需人工安全评审 / 仍待实机验证
 
 1. **指纹与设备名未强制绑定。** 核心验证 trusted-clients 指纹集合后另行检查上报名称是否在布局中，不能证明某个证书只能声明某个名称。MVP 明确限定所有配对设备属于同一所有者、同一信任域，不能作为多用户或多租户权限边界。
-2. **上游本地 IPC。** Deskflow 1.27.0 `src/lib/deskflow/ipc/IpcServer.cpp:34` 配置 WorldAccessOption，CoreIpcServer 的 stop 命令没有身份握手门禁。本管理层发送前核对 PID，只解决误停其他实例；没有改变其他本机用户能访问该上游端点的风险。当前核心不以 root / SYSTEM 运行；多用户主机或公开发布前应修补核心 IPC 的用户访问权限及身份验证，并完成兼容性测试。
+2. **上游本地 IPC。** Deskflow 1.27.0 `src/lib/deskflow/ipc/IpcServer.cpp:34` 配置 WorldAccessOption，CoreIpcServer 的 stop 命令没有身份握手门禁。本管理层发送前核对 PID，只解决误停其他实例；没有改变其他本机用户能访问该上游端点的风险。普通桌面核心不以 root / SYSTEM 运行；多用户部署或生产使用前应修补核心 IPC 的用户访问权限及身份验证，并完成兼容性测试。源码公开不代表该风险已修复。
 3. **原生输入与解析器。** 复用核心的输入释放、报文解析、TLS 握手资源限制、clipboard 反序列化与并发未做全仓安全扫描。强制配对限制访问，但自动接口监听须由部署环境控制入站网络，不能把配置测试称作这些运行路径的全面验证。
 4. **平台生命周期。** Windows 的 normal stop 与进程约束已实现；macOS / Ubuntu 的父进程突然崩溃、休眠恢复、Wayland 权限撤销和按键释放需实机验证。正常关闭界面会停止核心；首版没有实现其他平台的父进程死亡 watchdog。
 5. **授权权限与秘密存储。** macOS/Wayland 系统授权必须授予实际输入核心。自签名证书以 pinning 作为信任锚，上游不等同公共 CA/主机名 PKI；对端证书过期的上游行为、撤销轮换与 OS Keychain/Credential Manager 存储须后续验证。

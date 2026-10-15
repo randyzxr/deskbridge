@@ -1,5 +1,10 @@
 # DeskBridge
 
+开源的局域网键盘鼠标共享工具。欢迎下载使用、Fork、提交 Issue 和 Pull Request。
+
+- [下载安装包](https://github.com/randyzxr/deskbridge/releases/tag/v0.3.1) · [快速说明](docs/quick-start.md) · [参与贡献](CONTRIBUTING.md)
+- DeskBridge 独立控制器采用 [MIT 许可证](LICENSE)；Deskflow 输入核心及其他依赖遵循各自许可证，详见 [第三方声明](THIRD_PARTY_NOTICES.md)。
+
 独立桌面控制器 + 固定版本 Deskflow 1.27.0 输入核心，实现局域网 Windows / macOS / Ubuntu 键盘鼠标共享。提供 Windows 安装版、Mac ARM / Intel DMG 和 Ubuntu 26.04 amd64 DEB 的原生构建；安装与启动检查见 [验证记录](docs/validation.md)。系统输入权限与双机实际键鼠效果仍需在使用的电脑上验收。
 
 这不是仅展示连接效果的网页：点击启动后会运行真实的原生输入核心。产品与开发方案见 [设计](docs/design.md)。

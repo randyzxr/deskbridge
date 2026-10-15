@@ -26,9 +26,11 @@ The optional 0.3.0 Windows receiver service uses a modified copy of deskflow-cor
 - PyInstaller 6.22.3 (build tool): GPL-2.0-or-later with its bootloader exception.
   https://pyinstaller.org/en/stable/license.html
 
-This is an internal development MVP, not a legal determination of redistribution
-compliance. Before public/commercial release, review the exact bundled dependency
-versions and ensure all required notices and corresponding-source obligations are met.
+This repository is published as a development MVP. The controller's MIT license
+does not replace the licenses of Deskflow or other bundled components. When
+redistributing source or installers, retain their notices and satisfy the applicable
+corresponding-source obligations for the exact dependency versions being shipped.
+The notices here are not a legal determination of redistribution compliance.
 
 0.3.1 Windows repackaging omits the separate upstream deskflow.exe GUI, GUI
 translations, Qt6Svg and unused image/icon/style/generic plugins. Ordinary
