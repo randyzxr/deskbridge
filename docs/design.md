@@ -4,7 +4,7 @@
 
 ## 设计选择
 
-MVP 以独立 Python/Tk 桌面界面管理官方固定版本 Deskflow 核心。Synergy 的难点集中在原生 hooks、按键布局、边缘几何、macOS 权限及 Wayland portals。复用开源核心能先交付真实功能；独立产品若选择完全重写，应把输入后端与协议开发作为单独阶段，而不是替换几个 UI 标签。
+MVP 以独立 Python/Tk 桌面界面管理官方固定版本 Deskflow 核心。难点集中在原生 hooks、按键布局、边缘几何、macOS 权限及 Wayland portals。复用开源核心能先交付真实功能；独立产品若选择完全重写，应把输入后端与协议开发作为单独阶段，而不是替换几个 UI 标签。
 
 ```mermaid
 flowchart LR
