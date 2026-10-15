@@ -50,6 +50,8 @@ python tools/checksums.py
 
 ## GitHub
 
+当前 GitHub CLI 的 `workflow` 权限等待用户补充授权。普通源码与 Windows 安装包可先上传；仓库中的 `packaging/installers.yml.example` 是不会执行的构建模板。授权后把它作为 `.github/workflows/installers.yml` 上传，才可从 Actions 启动。源码 ZIP 也包含该工作流文件。
+
 工作流 `.github/workflows/installers.yml` 仅允许手动运行，使用 Windows、Mac ARM / Intel、Ubuntu 对应 runner。默认内容只读、checkout 不保存凭据；仅发布草稿的 job 有仓库内容写权限。所有 Action 固定提交，输入核心固定摘要。不开启 PR 中有秘密权限的构建。
 
 上传源码后，在 Actions → Build native installers → Run workflow 运行。成功后每个平台的安装包及 SHA-256 清单出现在该次运行的 Artifacts。勾选 `draft_release` 会在全部构建成功后创建 v0.3.1 草稿 Release；对外发布前继续完成实际键鼠、权限和各端安装验收。Mac 签名/公证、实验锁屏服务安全评审仍为后续工作。
