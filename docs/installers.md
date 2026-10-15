@@ -50,7 +50,7 @@ python tools/checksums.py
 
 ## GitHub
 
-GitHub `workflow` 授权已完成，`.github/workflows/installers.yml` 已启用。`platform` 可选 all、macos 或 ubuntu，以便只重建需要的目标。仓库保留 `packaging/installers.yml.example` 作为模板；实际构建结果以对应运行日志和 Release 附件为准。
+GitHub `workflow` 授权已完成，`.github/workflows/installers.yml` 已启用。`platform` 可选 all、unix（Mac + Ubuntu）、macos 或 ubuntu，以便只重建需要的目标。仓库保留 `packaging/installers.yml.example` 作为模板；实际构建结果以对应运行日志和 Release 附件为准。
 
 工作流 `.github/workflows/installers.yml` 仅允许手动运行，使用 Windows、Mac ARM / Intel、Ubuntu 对应 runner。默认内容只读、checkout 不保存凭据；仅发布草稿的 job 有仓库内容写权限。所有 Action 固定提交，输入核心固定摘要。不开启 PR 中有秘密权限的构建。
 

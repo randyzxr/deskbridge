@@ -32,6 +32,8 @@ with tempfile.TemporaryDirectory(prefix="dmg-install-check-", dir=ROOT / "build"
         subprocess.run(["codesign", "--verify", "--strict", str(installed)], check=True)
         subprocess.run([sys.executable, str(ROOT / "tools/frozen_checks.py"),
                         str(installed / "Contents/MacOS/DeskBridge")], check=True)
+        subprocess.run([sys.executable, str(ROOT / "tools/launch_smoke.py"),
+                        str(installed / "Contents/MacOS/DeskBridge")], check=True)
     finally:
         if attached:
             subprocess.run(["hdiutil", "detach", str(mount)], check=True)

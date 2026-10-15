@@ -6,7 +6,7 @@ on:
       platform:
         description: Platforms to build
         type: choice
-        options: [all, macos, ubuntu]
+        options: [all, unix, macos, ubuntu]
         default: all
       draft_release:
         description: Create a draft release after every platform succeeds
@@ -118,7 +118,7 @@ jobs:
       - name: Install build prerequisites
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-venv python3-tk
+          sudo apt-get install -y python3-venv python3-tk xvfb xauth
           python3 -m venv .venv
           .venv/bin/python -m pip install --only-binary=:all: -r requirements-build.lock
       - run: .venv/bin/python tools/fetch_native.py
@@ -128,6 +128,7 @@ jobs:
       - run: .venv/bin/python tools/installers.py --native vendor/cache/deskflow-1.27.0-ubuntu-resolute-x86_64.deb
       - run: sudo apt-get install -y ./dist/DeskBridge-0.3.1-ubuntu-26.04-amd64.deb
       - run: .venv/bin/python tools/frozen_checks.py /opt/deskbridge/DeskBridge
+      - run: xvfb-run -a .venv/bin/python tools/launch_smoke.py /opt/deskbridge/DeskBridge
       - run: .venv/bin/python tools/checksums.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
