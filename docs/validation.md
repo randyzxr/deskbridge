@@ -58,4 +58,22 @@ macOS、Ubuntu Xorg/Wayland 的实际安装与权限；Win↔Mac↔Ubuntu 双机
 - 重新编译服务通过快照/指纹/注入/端口/清单摘要/额外 DLL 拒绝测试，无服务安装或 SYSTEM 输入。
 - Windows 安装器安装到工作区临时目录，安装后的程序完成身份/核心探测，确认附带快速说明，再卸载并移除测试卸载项。未替换旧安装、未启动共享、未安装服务。
 
-Mac / Ubuntu 的安装包构建与双机实际输入未在此 Windows 环境运行，后续以 GitHub 对应 runner 的真实日志和目标电脑验收为准。当前旧版核心仍在用户共享，不停止它来运行互斥核心的输入测试。
+上述为 Windows 本机记录；Mac / Ubuntu 后续原生 CI 验证结果见下节。当前旧版核心仍在用户共享，不停止它来运行互斥核心的输入测试。
+
+## 0.3.1 跨平台安装交付完成
+
+2026-10-15，原生 GitHub runner 构建：
+
+| 平台 | 安装与启动验证 |
+|---|---|
+| macOS Apple silicon | DMG 校验、只读挂载、复制到独立 Applications 目录、开发签名验证、身份创建/持久化、随包 1.27.0 核心加载、GUI 进程启动存活检查通过 |
+| macOS Intel | 同上；固定摘要的 cryptography 50.0.2 和 zeroconf 0.151.5 源码编译成功，版本未降级 |
+| Ubuntu 26.04 amd64 | DEB 构建、APT 安装、身份持久化、随包核心加载、Xvfb 环境 GUI 进程启动检查通过 |
+| Windows x64 | 独立 runner 构建、冻结身份/核心探测、编译服务快照校验和安装器生成通过；英文系统的中文诊断输出编码问题已修复 |
+
+35 项单元测试在目标 runner 执行；Mac / Ubuntu 各跳过 3 项 Windows 专用或固定 Windows 核心夹具检查，其余通过。GUI 进程检查持续 4 秒，使用隔离配置，没有启动共享、注入键鼠或操作其他应用。
+
+- [全平台构建通过，提交 201d131](https://github.com/randyzxr/deskbridge/actions/runs/38695294891)
+- [Mac / Ubuntu 最终镜像与安装后 GUI 启动通过，提交 d0e03c4](https://github.com/randyzxr/deskbridge/actions/runs/38696005025)
+
+以上不是实体键鼠、双机切换、剪贴板、Mac TCC / Wayland portal 授权、休眠恢复或锁屏输入的验收。Mac 目前仅 ad-hoc 开发签名，没有 Apple Developer ID 公证。系统权限和这些原生输入场景仍需在实际电脑确认。

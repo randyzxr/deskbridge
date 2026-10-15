@@ -12,7 +12,7 @@ Mac 使用源码包更新项目文件并保留既有 `.venv` 和用户身份目�
 .venv/bin/python app.py
 ```
 
-当前交付没有从 Windows 构建 macOS `.app`；Mac 权限、锁屏和实体输入仍需在 Mac 实测。
+0.3.1 已在 Mac 原生 runner 生成内含 `.app` 和核心的 DMG，并完成镜像、复制安装、签名及启动检查；源码方式仍可使用。Mac 系统权限、锁屏和实体输入仍需在实际电脑确认。
 
 ## Windows 接收端锁屏
 

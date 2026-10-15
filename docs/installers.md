@@ -1,6 +1,6 @@
 # 安装包构建与发布
 
-0.3.1 新增精简打包、Windows 原生托盘与 Windows 安装器。Windows 本机可构建验收；Mac / Ubuntu 脚本须在目标系统运行成功后才能交付，不能把本文件视为跨平台安装测试通过。
+0.3.1 已生成 Windows 安装版、Mac Apple silicon / Intel DMG、Ubuntu 26.04 amd64 DEB，并通过原生 CI 安装及启动检查。实际日志、范围及未覆盖项目见 [验证记录](validation.md)。
 
 | 目标 | 产物 | 当前构建条件 |
 |---|---|---|

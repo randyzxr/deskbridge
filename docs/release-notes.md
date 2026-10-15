@@ -1,6 +1,6 @@
 # DeskBridge 0.3.1
 
-草稿按平台附安装包、源码和 SHA-256 清单；只上传构建与程序探测通过的文件。Mac 提供 Apple silicon / Intel 两种 DMG，Ubuntu 提供 26.04 amd64 的 DEB，具体就绪情况以 Release 中的实际附件为准。
+本预览版已附 Windows 安装版 / 便携版、Mac Apple silicon / Intel 两种 DMG、Ubuntu 26.04 amd64 DEB、源码与 SHA-256 清单。Mac / Ubuntu 均通过原生构建、安装副本、身份持久化、核心加载和 GUI 进程启动检查。
 
 新增 Windows 原生托盘：最小化、关闭窗口或点击隐藏按钮后继续共享；双击托盘图标恢复，右键退出停止普通共享。系统托盘不可用时保留普通窗口行为。
 
